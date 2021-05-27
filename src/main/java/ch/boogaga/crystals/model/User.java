@@ -1,0 +1,48 @@
+package ch.boogaga.crystals.model;
+
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "users")
+@Getter @Setter @EqualsAndHashCode(callSuper = true, of = {"login", "password", "email"})
+@ToString(callSuper = true, exclude = {"password"})
+public class User extends AbstractNamedEntity {
+    @Column(name = "login", nullable = false)
+    @Size(min = 3, max = 50)
+    @NotBlank
+    private String login;
+
+    @Column(name = "password", nullable = false)
+    @Size(min = 3, max = 50)
+    @NotBlank
+    private String password;
+
+    @Column(name = "email", nullable = false)
+    @Size(min = 3, max = 50)
+    @NotBlank
+    @Email
+    private String email;
+
+    @Column(name = "created", nullable = false)
+    @NotNull
+    private LocalDateTime created;
+
+    @Column(name = "email", nullable = false)
+    private LocalDateTime lastLoginTime;
+
+    @Column(name = "enabled", nullable = false)
+    @NotNull
+    private boolean enabled;
+}
