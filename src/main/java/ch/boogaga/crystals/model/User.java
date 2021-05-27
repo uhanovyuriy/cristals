@@ -41,10 +41,13 @@ public class User extends AbstractNamedEntity {
     @NotNull
     private LocalDateTime created;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "lastLoginTime", nullable = false)
     private LocalDateTime lastLoginTime;
 
     @Column(name = "enabled", nullable = false)
     @NotNull
     private boolean enabled;
+
+    @Column(name = "reals", nullable = false)
+    private int reals;
 }
