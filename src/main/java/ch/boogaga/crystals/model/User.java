@@ -48,6 +48,12 @@ public class User extends AbstractNamedEntity {
     @NotNull
     private boolean enabled;
 
-    @Column(name = "reals", nullable = false)
-    private int reals;
+    @Column(name = "melee", nullable = false)
+    private int melee;
+
+    @Column(name = "melanges", nullable = false)
+    private int melanges;
+
+    @Column(name = "solitaires", nullable = false)
+    private int solitaires;
 }
