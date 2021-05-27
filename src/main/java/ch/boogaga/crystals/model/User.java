@@ -8,6 +8,7 @@ import lombok.ToString;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -15,7 +16,8 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "login", name = "users_unique_login_idx"),
+        @UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})
 @Getter @Setter @EqualsAndHashCode(callSuper = true, of = {"login", "password", "email"})
 @ToString(callSuper = true, exclude = {"password"})
 public class User extends AbstractNamedEntity {
