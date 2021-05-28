@@ -8,10 +8,10 @@ import lombok.ToString;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "units")
+@Table(name = "currency")
 @Getter @Setter @EqualsAndHashCode(callSuper = true) @ToString(callSuper = true)
-public class Unit extends AbstractNamedEntity {
+public class Currency extends AbstractNamedEntity {
     @Column(name = "type")
     @Enumerated(EnumType.STRING)
-    private UnitType type;
+    private CurrencyType type;
 }

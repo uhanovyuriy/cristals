@@ -59,4 +59,20 @@ public class User extends AbstractNamedEntity {
     @Column(name = "solitaires", nullable = false)
     @NotNull
     private int solitaires;
+
+    @Column(name = "score", nullable = false)
+    @NotNull
+    private int score;
+
+    @Column(name = "record", nullable = false)
+    @NotNull
+    private int record;
+
+    @Column(name = "free_swaps", nullable = false)
+    @NotNull
+    private int freeSwaps;
+
+    @Column(name = "undo", nullable = false)
+    @NotNull
+    private int undo;
 }

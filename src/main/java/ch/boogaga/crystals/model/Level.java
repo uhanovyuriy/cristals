@@ -28,5 +28,5 @@ public class Level extends AbstractNamedEntity {
     private int weight;
 
     @OneToMany(fetch = FetchType.LAZY)
-    private List<Unit> cells;
+    private List<Currency> cells;
 }
