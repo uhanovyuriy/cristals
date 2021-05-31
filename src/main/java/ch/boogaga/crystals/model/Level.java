@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -27,6 +28,7 @@ public class Level extends AbstractNamedEntity {
     @Positive
     private int weight;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<Currency> cells;
+    @Type(type = "int-array")
+    @Column(name = "mines", nullable = false, columnDefinition = "integer[][]")
+    private int[][] mines;
 }

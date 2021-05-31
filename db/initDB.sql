@@ -3,7 +3,6 @@ DROP TABLE IF EXISTS levels;
 DROP TABLE IF EXISTS currency;
 DROP TABLE IF EXISTS mine;
 DROP SEQUENCE IF EXISTS global_seq;
-DROP TYPE IF EXISTS e_currency_type;
 DROP TYPE IF EXISTS e_mine_type;
 
 
@@ -30,16 +29,6 @@ CREATE TABLE users
 CREATE UNIQUE INDEX users_unique_login_idx ON users (login);
 CREATE UNIQUE INDEX users_unique_email_idx ON users (email);
 
-CREATE TYPE e_currency_type AS ENUM (
-    'MELEE', 'MELANGES', 'SOLITAIRES'
-    );
-CREATE TABLE currency
-(
-    id   INTEGER PRIMARY KEY DEFAULT NEXTVAL('global_seq'),
-    name VARCHAR(50)     NOT NULL,
-    type e_currency_type NOT NULL
-);
-
 CREATE TYPE e_mine_type AS ENUM (
     'WHITE', 'BLUE', 'PINK', 'PURPLE', 'YELLOW', 'RED', 'GREEN'
     );
@@ -55,5 +44,6 @@ CREATE TABLE levels
     id     INTEGER PRIMARY KEY DEFAULT NEXTVAL('global_seq'),
     name   VARCHAR(50)                   NOT NULL,
     height INTEGER             DEFAULT 0 NOT NULL,
-    weight INTEGER             DEFAULT 0 NOT NULL
+    weight INTEGER             DEFAULT 0 NOT NULL,
+    mines  INTEGER[][]                   NOT NULL
 );
