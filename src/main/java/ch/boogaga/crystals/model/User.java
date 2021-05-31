@@ -38,7 +38,6 @@ public class User extends AbstractNamedEntity {
     private String email;
 
     @Column(name = "created", nullable = false)
-    @NotNull
     private LocalDateTime created;
 
     @Column(name = "lastLoginTime", nullable = false)
@@ -75,4 +74,11 @@ public class User extends AbstractNamedEntity {
     @Column(name = "undo", nullable = false)
     @NotNull
     private int undo;
+
+    public User() {
+    }
+
+    public User(String name) {
+        this.setName(name);
+    }
 }
