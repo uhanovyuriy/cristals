@@ -1,15 +1,19 @@
 package ch.boogaga.crystals.model.message;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.NoArgsConstructor;
 
-@Getter @Setter @EqualsAndHashCode(callSuper = true) @ToString
+@Getter @NoArgsConstructor
 public class ResponseMessage extends Message {
-    private final boolean isComplete;
+    private String content;
+    private boolean completed;
 
-    public ResponseMessage(boolean isComplete) {
-        this.isComplete = isComplete;
+    public ResponseMessage(String content, boolean error) {
+        this.content = content;
+        this.setError(error);
+    }
+
+    public ResponseMessage(boolean completed) {
+        this.completed = completed;
     }
 }

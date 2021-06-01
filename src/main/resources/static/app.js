@@ -18,8 +18,8 @@ function connect() {
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/signIn/complete', function (signIn) {
-            showGreeting(JSON.parse(signIn.body).content);
+        stompClient.subscribe('/incoming/complete', function (incoming) {
+            showGreeting(JSON.parse(incoming.body).content);
         });
     });
 }
@@ -32,8 +32,8 @@ function disconnect() {
     console.log("Disconnected");
 }
 
-function register() {
-    stompClient.send("/app/register", {}, JSON.stringify({'name': $("#name").val()}));
+function send() {
+    stompClient.send("/app/incoming", {}, JSON.stringify({'name': $("#name").val()}));
 }
 
 function showGreeting(message) {
@@ -46,5 +46,5 @@ $(function () {
     });
     $( "#connect" ).click(function() { connect(); });
     $( "#disconnect" ).click(function() { disconnect(); });
-    $( "#send" ).click(function() { register(); });
+    $( "#send" ).click(function() { send(); });
 });

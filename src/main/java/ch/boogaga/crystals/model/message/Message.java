@@ -9,6 +9,10 @@ import java.util.Map;
 
 @Getter @Setter @EqualsAndHashCode @ToString
 public class Message {
+    private boolean error;
     private int userId;
-    private Map<String, String> content;
+    private Map<String, String> param;
+
+    public Message() {
+    }
 }
