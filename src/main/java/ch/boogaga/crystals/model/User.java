@@ -40,7 +40,7 @@ public class User extends AbstractNamedEntity {
     @Column(name = "created", nullable = false)
     private LocalDateTime created;
 
-    @Column(name = "lastLoginTime", nullable = false)
+    @Column(name = "last_login_time", nullable = false)
     private LocalDateTime lastLoginTime;
 
     @Column(name = "enabled", nullable = false)

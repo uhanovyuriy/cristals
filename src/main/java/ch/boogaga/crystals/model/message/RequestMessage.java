@@ -1,20 +1,20 @@
 package ch.boogaga.crystals.model.message;
 
 public class RequestMessage {
-    private String name;
+    private String login;
 
     public RequestMessage() {
     }
 
-    public RequestMessage(String name) {
-        this.name = name;
+    public RequestMessage(String login) {
+        this.login = login;
     }
 
-    public String getName() {
-        return this.name;
+    public String getLogin() {
+        return this.login;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLogin(String login) {
+        this.login = login;
     }
 }

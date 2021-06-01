@@ -51,12 +51,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-
-		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>1.18.20</version>
@@ -73,6 +67,11 @@
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
 			<version>6.0.13.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.vladmihalcea/hibernate-types-52 -->
 		<dependency>
