@@ -9,10 +9,11 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>ch.boogaga</groupId>
-	<artifactId>crystals</artifactId>
+	<artifactId>crystals-server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>crystals</name>
 	<description>crystal project</description>
+	<packaging>jar</packaging>
 	<properties>
 		<java.version>11</java.version>
 	</properties>

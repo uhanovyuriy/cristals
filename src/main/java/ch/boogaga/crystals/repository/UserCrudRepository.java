@@ -7,5 +7,5 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public interface UserCrudRepository extends JpaRepository<User, Integer> {
 
-    User findByLogin(String login);
+    User findByLogin(final String login);
 }
