@@ -5,17 +5,19 @@ function setConnected(connected) {
     $("#disconnect").prop("disabled", !connected);
     if (connected) {
         $("#conversation").show();
-    }
-    else {
+    } else {
         $("#conversation").hide();
     }
     $("#greetings").html("");
 }
 
 function connect() {
-    var socket = new SockJS('/websocket');
+    var socket = new SockJS('/stomp');
     stompClient = Stomp.over(socket);
-    stompClient.connect({}, function (frame) {
+    stompClient.connect({
+        'login': 'test@mail.ru',
+        'password': '$2a$10$F7bZXdBwZC25MZjNGP97rOvwRs59XzQfprE164kFfI3Y5rrg6Ssuy'
+    }, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
         stompClient.subscribe('/incoming/complete', function (incoming) {
@@ -44,7 +46,13 @@ $(function () {
     $("form").on('submit', function (e) {
         e.preventDefault();
     });
-    $( "#connect" ).click(function() { connect(); });
-    $( "#disconnect" ).click(function() { disconnect(); });
-    $( "#send" ).click(function() { send(); });
+    $("#connect").click(function () {
+        connect();
+    });
+    $("#disconnect").click(function () {
+        disconnect();
+    });
+    $("#send").click(function () {
+        send();
+    });
 });
