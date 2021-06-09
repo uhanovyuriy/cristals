@@ -1,4 +1,4 @@
-package ch.boogaga.crystals.service;
+package ch.boogaga.crystals.service.security;
 
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;

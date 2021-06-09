@@ -1,6 +1,6 @@
 package ch.boogaga.crystals.configuration;
 
-import ch.boogaga.crystals.service.UserDetailsServiceImpl;
+import ch.boogaga.crystals.service.security.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

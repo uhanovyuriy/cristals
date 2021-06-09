@@ -1,4 +1,4 @@
-package ch.boogaga.crystals.service;
+package ch.boogaga.crystals.service.security;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

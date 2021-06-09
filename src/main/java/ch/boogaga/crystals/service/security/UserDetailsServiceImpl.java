@@ -1,4 +1,4 @@
-package ch.boogaga.crystals.service;
+package ch.boogaga.crystals.service.security;
 
 import ch.boogaga.crystals.model.User;
 import ch.boogaga.crystals.model.UserPrincipalImpl;

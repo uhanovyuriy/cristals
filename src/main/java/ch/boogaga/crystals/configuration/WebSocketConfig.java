@@ -1,6 +1,6 @@
 package ch.boogaga.crystals.configuration;
 
-import ch.boogaga.crystals.service.AuthorizationChannelInterceptor;
+import ch.boogaga.crystals.service.security.AuthorizationChannelInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
