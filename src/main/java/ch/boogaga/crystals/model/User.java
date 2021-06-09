@@ -78,7 +78,23 @@ public class User extends AbstractNamedEntity {
     public User() {
     }
 
-    public User(String name) {
+    public User(int id, String name, String login, String password, String email, LocalDateTime created,
+                LocalDateTime lastLoginTime, boolean enabled, int melee, int melanges, int solitaires, int score,
+                int record, int freeSwaps, int undo) {
+        this.setId(id);
         this.setName(name);
+        this.login = login;
+        this.password = password;
+        this.email = email;
+        this.created = created;
+        this.lastLoginTime = lastLoginTime;
+        this.enabled = enabled;
+        this.melee = melee;
+        this.melanges = melanges;
+        this.solitaires = solitaires;
+        this.score = score;
+        this.record = record;
+        this.freeSwaps = freeSwaps;
+        this.undo = undo;
     }
 }

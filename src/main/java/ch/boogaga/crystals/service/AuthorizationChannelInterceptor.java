@@ -26,7 +26,7 @@ public class AuthorizationChannelInterceptor implements ChannelInterceptor {
         if(accessor.getCommand() == StompCommand.CONNECT){
             final String username = accessor.getFirstNativeHeader(LOGIN_HEADER);
             final String password = accessor.getFirstNativeHeader(PASSWORD_HEADER);
-            UsernamePasswordAuthenticationToken user = service.getAuthenticatedOrFail(username, password);
+            final UsernamePasswordAuthenticationToken user = service.getAuthenticatedOrFail(username, password);
             accessor.setUser(user);
         }
         return message;
