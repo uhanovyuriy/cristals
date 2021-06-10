@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class CrystalsApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CrystalsApplication.class, args);
+		final SpringApplication app = new SpringApplication(CrystalsApplication.class);
+		app.setAdditionalProfiles("dev");
+		app.run(args);
 	}
 
 }

@@ -6,14 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.ActiveProfiles;
 
 import static ch.boogaga.crystals.testdata.TestDataUser.USER_1;
 import static ch.boogaga.crystals.testdata.TestDataUser.USER_1_TOKEN;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@TestPropertySource(properties = {"SPRING_DATASOURCE_URL=jdbc:postgresql://192.168.10.151:5432/crystals"})
+@ActiveProfiles("test")
 class WebSocketAuthenticatorServiceTest {
 
     @Autowired

@@ -121,6 +121,15 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<profiles>
+						<profiles>
+							<profile>dev</profile>
+							<profile>prod</profile>
+							<profile>test</profile>
+						</profiles>
+					</profiles>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
