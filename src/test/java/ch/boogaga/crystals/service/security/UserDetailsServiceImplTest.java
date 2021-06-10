@@ -1,9 +1,9 @@
 package ch.boogaga.crystals.service.security;
 
+import ch.boogaga.crystals.util.exception.NotFoundException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.TestPropertySource;
 
 import static ch.boogaga.crystals.testdata.TestDataUser.*;
@@ -18,7 +18,7 @@ class UserDetailsServiceImplTest {
 
     @Test
     void loadUserByUsername() {
-        assertThrows(UsernameNotFoundException.class, () -> service.loadUserByUsername(""));
+        assertThrows(NotFoundException.class, () -> service.loadUserByUsername(""));
         assertEquals(USER_1_PRINCIPAL, service.loadUserByUsername(USER_1.getLogin()));
         assertNotEquals(USER_1_PRINCIPAL, service.loadUserByUsername(USER_2.getLogin()));
     }

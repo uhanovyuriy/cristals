@@ -2,7 +2,8 @@ package ch.boogaga.crystals.service.security;
 
 import ch.boogaga.crystals.model.Role;
 import ch.boogaga.crystals.model.User;
-import ch.boogaga.crystals.repository.UserCrudRepository;
+import ch.boogaga.crystals.service.UserService;
+import ch.boogaga.crystals.util.exception.NotFoundException;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -15,12 +16,12 @@ import java.util.Collections;
 
 @Service
 public class WebSocketAuthenticatorService {
-    private final UserCrudRepository userRepository;
+    private final UserService userService;
     private final AuthenticationManager authenticationManager;
 
-    public WebSocketAuthenticatorService(UserCrudRepository userRepository,
+    public WebSocketAuthenticatorService(UserService userService,
                                          AuthenticationManager authenticationManager) {
-        this.userRepository = userRepository;
+        this.userService = userService;
         this.authenticationManager = authenticationManager;
     }
 
@@ -31,9 +32,9 @@ public class WebSocketAuthenticatorService {
         if (password == null || password.trim().isEmpty()) {
             throw new AuthenticationCredentialsNotFoundException("Password was null or empty.");
         }
-        final User user = userRepository.findByLogin(username);
+        final User user = userService.findByLogin(username);
         if (user == null) {
-            throw new AuthenticationCredentialsNotFoundException("User not found");
+            throw new NotFoundException("User not found");
         }
         final UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                 username,
