@@ -17,4 +17,11 @@ public class RequestMessage {
     public void setLogin(String login) {
         this.login = login;
     }
+
+    @Override
+    public String toString() {
+        return "RequestMessage{" +
+                "login='" + login + '\'' +
+                '}';
+    }
 }
