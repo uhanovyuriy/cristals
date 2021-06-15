@@ -1,0 +1,13 @@
+version: "3.9"
+services:
+  local:
+    image: boogaga2021/crystals_server
+    profiles: ["local"]
+    build: .
+    extra_hosts:
+      - "host:192.168.56.102"
+    container_name: "crystals_server"
+    ports:
+      - "9350:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://192.168.56.102:5432/crystals
