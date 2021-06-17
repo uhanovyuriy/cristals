@@ -1,13 +1,37 @@
 version: "3.9"
 services:
   local:
-    image: boogaga2021/crystals_server
-    profiles: ["local"]
+    profiles: [ "local" ]
     build: .
+    image: boogaga2021/crystals_server:${TAG}
     extra_hosts:
-      - "host:192.168.56.102"
-    container_name: "crystals_server"
+      - "host:${HOST_LOCAL_VM}"
+    container_name: ${SERVER_CONTAINER_NAME}
     ports:
       - "9350:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://192.168.56.102:5432/crystals
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://${HOST_LOCAL_VM}:5432/crystals
+
+  local_vm:
+    profiles: [ "local_vm" ]
+    build: .
+    image: boogaga2021/crystals_server:${TAG}
+    extra_hosts:
+      - "host:${HOST_LOCAL_VM}"
+    container_name: ${SERVER_CONTAINER_NAME}
+    ports:
+      - "9350:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://${HOST_LOCAL_VM}:5432/crystals
+
+  remote_vm:
+    profiles: [ "remote_vm" ]
+    build: .
+    image: boogaga2021/crystals_server:${TAG}
+    extra_hosts:
+      - "host:${HOST_REMOTE_VM}"
+    container_name: ${SERVER_CONTAINER_NAME}
+    ports:
+      - "9350:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://${HOST_REMOTE_VM}:5432/crystals
