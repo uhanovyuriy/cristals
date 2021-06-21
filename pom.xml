@@ -206,6 +206,7 @@
 								<argument>-u</argument>
 								<argument>${docker.user}</argument>
 								<argument>-p</argument>
+								<!--suppress UnresolvedMavenProperty -->
 								<argument>${dockerPass}</argument>
 							</arguments>
 						</configuration>
