@@ -20,7 +20,6 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<docker.user>boogaga2021</docker.user>
 		<docker.image>boogaga2021/crystals_server</docker.image>
-		<docker.password>4pH6)pvZ@Y:_pkB</docker.password>
 		<docker.url>https://registry.hub.docker.com/repository/docker/</docker.url>
 	</properties>
 	<dependencies>
@@ -207,7 +206,7 @@
 								<argument>-u</argument>
 								<argument>${docker.user}</argument>
 								<argument>-p</argument>
-								<argument>${docker.password}</argument>
+								<argument>${dockerPass}</argument>
 							</arguments>
 						</configuration>
 					</execution>
