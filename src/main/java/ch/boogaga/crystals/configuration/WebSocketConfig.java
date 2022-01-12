@@ -1,5 +1,6 @@
 package ch.boogaga.crystals.configuration;
 
+import ch.boogaga.crystals.ConfigData;
 import ch.boogaga.crystals.service.security.AuthorizationChannelInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.ChannelRegistration;
@@ -19,14 +20,12 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/incoming");
-        config.setApplicationDestinationPrefixes("/app");
+        config.setApplicationDestinationPrefixes(ConfigData.APP_DESTINATION_PREFIX);
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/stomp")
-//                .setAllowedOrigins("http://localhost:63343")
+        registry.addEndpoint(ConfigData.END_POINT)
                 .withSockJS();
     }
 

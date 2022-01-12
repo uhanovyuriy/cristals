@@ -16,11 +16,11 @@ function connect() {
     stompClient = Stomp.over(socket);
     stompClient.connect({
         'login': 'test@mail.ru',
-        'password': '$2a$10$F7bZXdBwZC25MZjNGP97rOvwRs59XzQfprE164kFfI3Y5rrg6Ssuy'
+        'password': 'password1'
     }, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/incoming/complete', function (incoming) {
+        stompClient.subscribe('/crystals/incoming/complete', function (incoming) {
             showGreeting(JSON.parse(incoming.body).content);
         });
     });

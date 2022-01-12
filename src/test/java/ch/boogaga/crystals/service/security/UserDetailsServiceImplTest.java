@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
-@Sql(scripts = {"classpath:db/schemaHsqlTestDb.sql", "classpath:db/populateHsqlTestDb.sql"},
+@Sql(scripts = {"classpath:db/schemaTestDb.sql", "classpath:db/populateTestDb.sql"},
         executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @TestPropertySource(locations = "classpath:application-test.properties")
 class UserDetailsServiceImplTest {

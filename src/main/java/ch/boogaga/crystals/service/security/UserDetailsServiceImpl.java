@@ -1,6 +1,5 @@
 package ch.boogaga.crystals.service.security;
 
-import ch.boogaga.crystals.model.User;
 import ch.boogaga.crystals.model.UserPrincipalImpl;
 import ch.boogaga.crystals.service.UserService;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,7 +17,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        final User user = userService.findByLogin(login);
-        return new UserPrincipalImpl(user);
+        return new UserPrincipalImpl(userService.findByLogin(login));
     }
 }
