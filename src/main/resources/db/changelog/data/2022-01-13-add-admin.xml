@@ -1,0 +1,27 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet id="2022-01-13-add-admin" author="dev" context="dev">
+        <insert tableName="users">
+            <column name="id" value="100000"/>
+            <column name="name" value="admin"/>
+            <column name="login" value="admin@gmail.com"/>
+            <column name="password" value="password"/>
+            <column name="email" value="admin@gmail.com"/>
+            <column name="created" value="2022-01-12"/>
+            <column name="enabled" value="true"/>
+            <column name="score" value="0"/>
+        </insert>
+
+        <rollback>
+            <sql stripComments="true">
+                DELETE FROM users WHERE id = 100000
+                <comment>Delete user admin with id 100000</comment>
+            </sql>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

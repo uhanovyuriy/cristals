@@ -1,0 +1,51 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet id="2022-01-13-create-table-users" author="dev" context="dev">
+        <createSequence sequenceName="global_seq" cycle="false" startValue="100000" incrementBy="10"/>
+
+        <createTable tableName="users">
+            <column name="id" type="integer" defaultValueComputed="nextval('global_seq')">
+                <constraints primaryKey="true" unique="true"/>
+            </column>
+            <column name="name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="login" type="varchar(50)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="password" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(50)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="created" type="timestamp" defaultValueDate="now()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_login_time" type="timestamp"/>
+            <column name="enabled" type="boolean"/>
+            <column name="score" type="integer" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createIndex tableName="users" indexName="users_unique_login_idx" unique="true">
+            <column name="login"/>
+        </createIndex>
+        <createIndex tableName="users" indexName="users_unique_email_idx" unique="true">
+            <column name="email"/>
+        </createIndex>
+
+        <rollback>
+            <dropIndex tableName="users" indexName="users_unique_login_idx"/>
+            <dropIndex tableName="users" indexName="users_unique_email_idx"/>
+            <dropTable tableName="users"/>
+            <dropSequence sequenceName="global_seq"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
