@@ -1,6 +1,4 @@
 DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS levels;
-DROP TABLE IF EXISTS mine;
 DROP SEQUENCE IF EXISTS global_seq;
 
 CREATE SEQUENCE global_seq START WITH 100000;
@@ -13,7 +11,7 @@ CREATE TABLE users
     password        VARCHAR(200)                      NOT NULL,
     email           VARCHAR(50)                       NOT NULL,
     created         TIMESTAMP           DEFAULT now() NOT NULL,
-    last_login_time TIMESTAMP                         NOT NULL,
+    last_login_time TIMESTAMP,
     enabled         BOOLEAN             DEFAULT TRUE  NOT NULL,
     score           INTEGER             DEFAULT 0     NOT NULL
 );

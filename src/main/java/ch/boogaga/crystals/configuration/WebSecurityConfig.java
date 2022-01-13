@@ -1,5 +1,6 @@
 package ch.boogaga.crystals.configuration;
 
+import ch.boogaga.crystals.ConfigData;
 import ch.boogaga.crystals.controller.RegisterController;
 import ch.boogaga.crystals.service.security.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Configuration;
@@ -35,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/stomp/**");
+        web.ignoring().antMatchers(ConfigData.END_POINT + "/**");
     }
 
     @Override

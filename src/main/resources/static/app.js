@@ -12,11 +12,11 @@ function setConnected(connected) {
 }
 
 function connect() {
-    var socket = new SockJS('/stomp');
+    var socket = new SockJS('/crystals/stomp');
     stompClient = Stomp.over(socket);
     stompClient.connect({
-        'login': 'test@mail.ru',
-        'password': 'password1'
+        'login': 'admin@gmail.com',
+        'password': 'password'
     }, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
@@ -35,7 +35,7 @@ function disconnect() {
 }
 
 function send() {
-    stompClient.send("/app/incoming", {}, JSON.stringify({'login': $("#login").val()}));
+    stompClient.send("/crystals/incoming", {}, JSON.stringify({'login': $("#login").val()}));
 }
 
 function showGreeting(message) {
