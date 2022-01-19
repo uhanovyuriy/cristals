@@ -4,7 +4,52 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
 
-    <includeAll path="db/changelog/scheme/"/>
-    <includeAll path="db/changelog/data/"/>
+    <changeSet id="1" author="dev">
+        <tagDatabase tag="version_1"/>
+    </changeSet>
+
+    <changeSet id="2" author="dev">
+        <comment>Create global sequence start with 100000</comment>
+        <sqlFile path="db/changelog/scheme/2022-01-13-create-sequence.sql"/>
+        <rollback>
+            <sqlFile path="db/changelog/scheme/2022-01-13-drop-sequence.sql"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="3" author="dev">
+        <comment>Create table users with unique idx and populate one user admin</comment>
+        <sqlFile path="db/changelog/scheme/2022-01-13-create-table-users.sql"/>
+        <sqlFile path="db/changelog/data/2022-01-13-add-admin.sql"/>
+        <rollback>
+            <sql>
+                DROP TABLE IF EXISTS users;
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="4" author="dev">
+        <tagDatabase tag="version_2"/>
+    </changeSet>
+
+    <changeSet id="5" author="dev">
+        <comment>Create table chat_message_private with idx by sender_id,recipient_id and enum type message_statuses</comment>
+        <sqlFile path="db/changelog/scheme/2022-01-19-create-table-chat-message-private.sql"/>
+        <rollback>
+            <sql>
+                DROP TABLE IF EXISTS chat_message_private;
+                DROP TYPE IF EXISTS message_statuses;
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="6" author="dev">
+        <comment>Create table chat_message_public with idx by sender_id, locale_id</comment>
+        <sqlFile path="db/changelog/scheme/2022-01-19-create-table-chat-message-public.sql"/>
+        <rollback>
+            <sql>
+                DROP TABLE IF EXISTS chat_message_public;
+            </sql>
+        </rollback>
+    </changeSet>
 
 </databaseChangeLog>
