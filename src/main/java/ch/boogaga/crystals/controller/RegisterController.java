@@ -1,7 +1,7 @@
 package ch.boogaga.crystals.controller;
 
 import ch.boogaga.crystals.ConfigData;
-import ch.boogaga.crystals.model.User;
+import ch.boogaga.crystals.model.persist.User;
 import ch.boogaga.crystals.service.UserService;
 import ch.boogaga.crystals.to.UserTo;
 import ch.boogaga.crystals.util.UserUtils;
@@ -17,9 +17,9 @@ import java.net.URI;
 
 
 @RestController
-@RequestMapping(value = RegisterController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = RegisterController.REST_REGISTER_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class RegisterController {
-    public static final String REST_URL = ConfigData.APP_DESTINATION_PREFIX + "/rest/register";
+    public static final String REST_REGISTER_URL = ConfigData.APP_DESTINATION_PREFIX + "/rest/register";
 
     private final UserService userService;
 
@@ -30,10 +30,10 @@ public class RegisterController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<User> register(@RequestBody UserTo userTo) {
+    public ResponseEntity<User> register(@RequestBody final UserTo userTo) {
         Assert.notNull(userTo, "userTo must not be null");
         final User created = userService.prepareAndCreate(UserUtils.fromTo(userTo));
-        final URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path(REST_URL).build().toUri();
+        final URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path(REST_REGISTER_URL).build().toUri();
         return ResponseEntity.created(uri).body(created);
     }
 }

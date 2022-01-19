@@ -13,21 +13,21 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @SpringBootApplication
 public class CrystalsApplication {
 
-	public static void main(String[] args) {
-		final SpringApplication app = new SpringApplication(CrystalsApplication.class);
-		app.setAdditionalProfiles("dev");
-		app.run(args);
-	}
+    public static void main(String[] args) {
+        final SpringApplication app = new SpringApplication(CrystalsApplication.class);
+        app.setAdditionalProfiles("dev");
+        app.run(args);
+    }
 
-	@Bean
-	public ObjectMapper objectMapperDirty() {
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-		return mapper;
-	}
+    @Bean
+    public ObjectMapper objectMapperDirty() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        return mapper;
+    }
 
-	@Bean
-	public PasswordEncoder passwordEncoder(){
-		return new BCryptPasswordEncoder(10);
-	}
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(10);
+    }
 }

@@ -1,8 +1,8 @@
 package ch.boogaga.crystals;
 
-public interface HasId {
-    Integer getId();
-    void setId(Integer id);
+public interface HasId <T> {
+    T getId();
+    void setId(T id);
 
     default boolean isNew() {
         return getId() == null;

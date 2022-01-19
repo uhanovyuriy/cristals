@@ -1,4 +1,4 @@
-package ch.boogaga.crystals.model;
+package ch.boogaga.crystals.model.persist;
 
 import ch.boogaga.crystals.util.validation.NoHtml;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,10 +12,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.validator.constraints.Range;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;

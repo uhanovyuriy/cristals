@@ -1,11 +1,11 @@
 package ch.boogaga.crystals.service.security;
 
-import ch.boogaga.crystals.util.exception.NotFoundException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
@@ -34,7 +34,7 @@ class WebSocketAuthenticatorServiceTest {
                 () -> service.getAuthenticatedOrFail(USER_1.getLogin(), ""));
         assertThrows(AuthenticationCredentialsNotFoundException.class,
                 () -> service.getAuthenticatedOrFail(USER_1.getLogin(), null));
-        assertThrows(NotFoundException.class,
+        assertThrows(UsernameNotFoundException.class,
                 () -> service.getAuthenticatedOrFail(USER_1.getName(), USER_1.getPassword()));
         UsernamePasswordAuthenticationToken actual =
                 service.getAuthenticatedOrFail(USER_1.getLogin(), USER_1.getPassword());

@@ -22,16 +22,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         this.passwordEncoder = passwordEncoder;
     }
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/js/**", "/lib/**", "/images/**", "/css/**", "/index.html", "/", "/*.css",
-                        "/webjars/**", "/*.js", RegisterController.REST_URL)
+                        "/webjars/**", "/*.js", RegisterController.REST_REGISTER_URL)
                 .permitAll()
-                .anyRequest().fullyAuthenticated();
+                .anyRequest()
+                .fullyAuthenticated();
     }
 
     @Override

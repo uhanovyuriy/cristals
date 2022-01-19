@@ -4,7 +4,7 @@ import ch.boogaga.crystals.HasId;
 
 import java.io.Serializable;
 
-public abstract class BaseTo implements HasId, Serializable {
+public abstract class BaseTo implements HasId<Integer>, Serializable {
     private static final long serialVersionUID = 1L;
 
     protected Integer id;

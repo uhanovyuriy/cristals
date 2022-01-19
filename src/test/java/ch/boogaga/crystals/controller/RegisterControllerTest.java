@@ -1,6 +1,6 @@
 package ch.boogaga.crystals.controller;
 
-import ch.boogaga.crystals.model.User;
+import ch.boogaga.crystals.model.persist.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -53,7 +53,7 @@ class RegisterControllerTest {
 
     @Test
     void register() throws Exception {
-        ResultActions action = mockMvc.perform(MockMvcRequestBuilders.post(RegisterController.REST_URL)
+        ResultActions action = mockMvc.perform(MockMvcRequestBuilders.post(RegisterController.REST_REGISTER_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(USER_TO)))
                 .andDo(print())

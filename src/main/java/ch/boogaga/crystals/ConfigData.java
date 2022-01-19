@@ -8,5 +8,10 @@ public class ConfigData {
     public static final String PASSWORD_HEADER = "password";
 
     // caching
-    public final static String CACHE_USERS_NAME = "users";
+    public static final String CACHE_USERS_NAME = "users";
+    public static final String CACHE_CHAT_NAME = "chat";
+
+    // chat
+    public static final String ROOM_ID_LOCALE_EN = "enEN";
+    public static final String ROOM_ID_LOCALE_RU = "ruRU";
 }

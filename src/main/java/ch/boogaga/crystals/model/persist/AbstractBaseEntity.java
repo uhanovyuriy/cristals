@@ -1,4 +1,4 @@
-package ch.boogaga.crystals.model;
+package ch.boogaga.crystals.model.persist;
 
 import ch.boogaga.crystals.HasId;
 import lombok.EqualsAndHashCode;
@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Setter
 @EqualsAndHashCode
 @ToString
-public abstract class AbstractBaseEntity implements HasId, Serializable {
+public abstract class AbstractBaseEntity implements HasId<Integer>, Serializable {
     private static final long serialVersionUID = 1L;
     public static final int START_SEQ = 100000;
 

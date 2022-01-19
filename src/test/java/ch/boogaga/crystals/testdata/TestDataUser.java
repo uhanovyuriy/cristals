@@ -1,10 +1,9 @@
 package ch.boogaga.crystals.testdata;
 
 import ch.boogaga.crystals.model.Role;
-import ch.boogaga.crystals.model.User;
+import ch.boogaga.crystals.model.persist.User;
 import ch.boogaga.crystals.model.UserPrincipalImpl;
 import ch.boogaga.crystals.to.UserTo;
-import ch.boogaga.crystals.util.UserUtils;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 

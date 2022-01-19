@@ -1,6 +1,6 @@
 package ch.boogaga.crystals.util;
 
-import ch.boogaga.crystals.model.User;
+import ch.boogaga.crystals.model.persist.User;
 import ch.boogaga.crystals.to.UserTo;
 import org.springframework.security.crypto.password.PasswordEncoder;
 

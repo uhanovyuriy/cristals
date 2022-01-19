@@ -1,4 +1,4 @@
-package ch.boogaga.crystals.model;
+package ch.boogaga.crystals.model.persist;
 
 import ch.boogaga.crystals.util.validation.NoHtml;
 import lombok.EqualsAndHashCode;

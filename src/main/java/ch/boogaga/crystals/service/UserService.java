@@ -1,11 +1,11 @@
 package ch.boogaga.crystals.service;
 
 import ch.boogaga.crystals.ConfigData;
-import ch.boogaga.crystals.model.User;
+import ch.boogaga.crystals.model.persist.User;
 import ch.boogaga.crystals.repository.UserCrudRepository;
 import ch.boogaga.crystals.util.UserUtils;
-import ch.boogaga.crystals.util.exception.NotFoundException;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +25,7 @@ public class UserService {
 
     public User findByLogin(@NotNull final String login) {
         return repository.findByLogin(login)
-                .orElseThrow(() -> new NotFoundException("User not found by login:" + login));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found by login:" + login));
     }
 
     @Cacheable(value = ConfigData.CACHE_USERS_NAME)
@@ -36,6 +36,6 @@ public class UserService {
     @Transactional
     public User prepareAndCreate(User user) {
         Assert.notNull(user, "user must not be null");
-        return repository.saveAndFlush(UserUtils.prepareToSave(user, passwordEncoder));
+        return repository.save(UserUtils.prepareToSave(user, passwordEncoder));
     }
 }

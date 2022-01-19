@@ -1,5 +1,6 @@
 package ch.boogaga.crystals.model;
 
+import ch.boogaga.crystals.model.persist.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

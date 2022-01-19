@@ -1,6 +1,6 @@
 package ch.boogaga.crystals.repository;
 
-import ch.boogaga.crystals.model.User;
+import ch.boogaga.crystals.model.persist.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
