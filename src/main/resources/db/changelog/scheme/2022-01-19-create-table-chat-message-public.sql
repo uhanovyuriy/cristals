@@ -8,6 +8,3 @@ CREATE TABLE chat_message_public
     created     TIMESTAMP           DEFAULT now() NOT NULL,
     expire_time TIMESTAMP                         NOT NULL
 );
-
-CREATE UNIQUE INDEX sender_id_public_unique_idx ON chat_message_public (sender_id);
-CREATE UNIQUE INDEX locale_id_unique_idx ON chat_message_public (locale_id);
