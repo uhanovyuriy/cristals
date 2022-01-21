@@ -17,11 +17,9 @@ import java.io.Serializable;
 @ToString
 public abstract class AbstractBaseEntity implements HasId<Integer>, Serializable {
     private static final long serialVersionUID = 1L;
-    public static final int START_SEQ = 100000;
 
     @Id
-    @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", allocationSize = 1, initialValue = START_SEQ)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
 
     public AbstractBaseEntity() {

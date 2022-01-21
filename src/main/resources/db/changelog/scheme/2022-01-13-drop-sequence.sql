@@ -1,1 +1,0 @@
-DROP SEQUENCE IF EXISTS global_seq;
