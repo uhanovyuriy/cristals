@@ -1,5 +1,6 @@
 package ch.boogaga.crystals.service;
 
+import ch.boogaga.crystals.model.persist.Subscription;
 import ch.boogaga.crystals.model.persist.User;
 import ch.boogaga.crystals.testdata.TestDataUser;
 import org.junit.jupiter.api.Test;
@@ -10,11 +11,13 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
-@Sql(scripts = {"classpath:db/schemaTestDb.sql", "classpath:db/populateTestDb.sql"},
+@Sql(scripts = {"classpath:db/schemaTestDataUserDb.sql", "classpath:db/populateTestDataUserDb.sql"},
         executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @TestPropertySource(locations = "classpath:application-test.properties")
 class UserServiceTest {

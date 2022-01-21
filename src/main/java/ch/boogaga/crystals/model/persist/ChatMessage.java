@@ -1,25 +1,21 @@
 package ch.boogaga.crystals.model.persist;
 
 import ch.boogaga.crystals.util.validation.NoHtml;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true, exclude = {"senderName", "message", "created", "expireTime"})
-@ToString(exclude = "message")
 @MappedSuperclass
-public class ChatMessage extends AbstractBaseEntity implements Serializable {
+@ToString(callSuper = true)
+public class ChatMessage extends AbstractBaseEntity {
     @Column(name = "sender_id", nullable = false)
     @Range(max = Integer.MAX_VALUE)
     private Integer senderId;
@@ -40,4 +36,15 @@ public class ChatMessage extends AbstractBaseEntity implements Serializable {
 
     @Column(name = "expire_time", nullable = false)
     private LocalDateTime expireTime;
+
+    public ChatMessage() {
+    }
+
+    public ChatMessage(Integer senderId, String senderName, String message, LocalDateTime created, LocalDateTime expireTime) {
+        this.senderId = senderId;
+        this.senderName = senderName;
+        this.message = message;
+        this.created = created;
+        this.expireTime = expireTime;
+    }
 }

@@ -6,10 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
@@ -17,12 +14,14 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "login", name = "users_unique_login_idx"),
         @UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})
 @Getter
 @Setter
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true, of = {"login", "password", "email"})
 @ToString(callSuper = true, exclude = {"password"})
 public class User extends AbstractNamedEntity {
@@ -62,8 +61,9 @@ public class User extends AbstractNamedEntity {
     @Range(max = Integer.MAX_VALUE)
     private int score;
 
-    public User() {
-    }
+    @OneToMany(targetEntity = Subscription.class, fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private List<Subscription> subscribers;
 
     public User(Integer id, String name, String login, String password, String email) {
         super.setId(id);
@@ -74,7 +74,7 @@ public class User extends AbstractNamedEntity {
     }
 
     public User(int id, String name, String login, String password, String email, LocalDateTime created,
-                LocalDateTime lastLoginTime, boolean enabled, int score) {
+                LocalDateTime lastLoginTime, boolean enabled, int score, List<Subscription> subscribers) {
         this.setId(id);
         this.setName(name);
         this.login = login;
@@ -84,6 +84,7 @@ public class User extends AbstractNamedEntity {
         this.lastLoginTime = lastLoginTime;
         this.enabled = enabled;
         this.score = score;
+        this.subscribers = subscribers;
     }
 
     public User(User user) {
@@ -96,5 +97,6 @@ public class User extends AbstractNamedEntity {
         this.lastLoginTime = user.lastLoginTime;
         this.enabled = user.enabled;
         this.score = user.score;
+        this.setSubscribers(user.subscribers);
     }
 }
