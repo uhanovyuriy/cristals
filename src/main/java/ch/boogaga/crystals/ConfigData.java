@@ -12,6 +12,10 @@ public class ConfigData {
     public static final String CACHE_CHAT_NAME = "chat";
 
     // chat
+    public static final int SIZE_PAGEABLE_MESSAGES = 1000;
     public static final String ROOM_ID_LOCALE_EN = "enEN";
     public static final String ROOM_ID_LOCALE_RU = "ruRU";
+    public static final String PRIVATE_SENDER_ROOMS = "PRIVATE_SENDER_ROOMS";
+    public static final String PRIVATE_RECIPIENT_ROOMS = "PRIVATE_RECIPIENT_ROOMS";
+    public static final String PUBLIC_ROOMS = "PUBLIC_ROOMS";
 }
