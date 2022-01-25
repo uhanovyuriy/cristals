@@ -5,6 +5,7 @@ import ch.boogaga.crystals.model.MessageStatus;
 import ch.boogaga.crystals.model.persist.ChatMessage;
 import ch.boogaga.crystals.model.persist.ChatMessagePrivate;
 import ch.boogaga.crystals.model.persist.ChatMessagePublic;
+import ch.boogaga.crystals.to.ChatMessageTo;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -19,6 +20,11 @@ public class TestDataChat {
     public static final int PRIVATE_MESSAGE_4_ID = 4;
     public static final int PUBLIC_MESSAGE_RU_ID = 1;
     public static final int PUBLIC_MESSAGE_EN_ID = 2;
+    public static final int PUBLIC_MESSAGE_NEXT_ID = 3;
+
+    public static final ChatMessageTo CHAT_MESSAGE_TO =
+            new ChatMessageTo(USER_ID_1, USER_1.getName(), "test data");
+
     public static final ChatMessagePrivate PRIVATE_MESSAGE_1 = new ChatMessagePrivate(PRIVATE_MESSAGE_1_ID,
             USER_ID_1, USER_1.getName(), "private message 1", LocalDateTime.of(2022, Month.JANUARY,
             8, 12, 30), LocalDateTime.of(2022, Month.JANUARY,

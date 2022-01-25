@@ -18,8 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
-import static ch.boogaga.crystals.ConfigData.CACHE_PRIVATE_ROOM_NAME;
-import static ch.boogaga.crystals.ConfigData.CACHE_PUBLIC_ROOM_RU_NAME;
+import static ch.boogaga.crystals.ConfigData.*;
 import static ch.boogaga.crystals.testdata.TestDataChat.*;
 import static ch.boogaga.crystals.testdata.TestDataUser.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -65,11 +64,19 @@ class ChatRoomServiceTest {
 
     @Test
     @Transactional
-    void save() {
-        ChatMessageTo to = new ChatMessageTo(USER_ID_1, USER_1.getName(), "test data");
-        int actual = service.savePrivate(to, USER_ID_2);
+    void savePrivate() {
+        int actual = service.savePrivate(CHAT_MESSAGE_TO, USER_ID_2);
         assertEquals(PRIVATE_MESSAGE_4_ID, actual);
         ChatMessagePrivate expected = privateRepository.getOne(PRIVATE_MESSAGE_4_ID);
         assertEquals(expected, hazelcastInstance.getMap(CACHE_PRIVATE_ROOM_NAME).get(PRIVATE_MESSAGE_4_ID));
+    }
+
+    @Test
+    @Transactional
+    void savePublic() {
+        int actual = service.savePublic(CHAT_MESSAGE_TO, ROOM_ID_LOCALE_RU);
+        assertEquals(PUBLIC_MESSAGE_NEXT_ID, actual);
+        ChatMessagePublic expected = publicRepository.getOne(PUBLIC_MESSAGE_NEXT_ID);
+        assertEquals(expected, hazelcastInstance.getMap(CACHE_PUBLIC_ROOM_RU_NAME).get(PUBLIC_MESSAGE_NEXT_ID));
     }
 }

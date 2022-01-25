@@ -19,6 +19,8 @@ import org.springframework.util.Assert;
 import javax.annotation.PostConstruct;
 
 import static ch.boogaga.crystals.ConfigData.*;
+import static ch.boogaga.crystals.util.ChatMessageUtils.privateMessageFromTo;
+import static ch.boogaga.crystals.util.ChatMessageUtils.publicMessageFromTo;
 
 @Component
 public class ChatRoomService {
@@ -50,13 +52,22 @@ public class ChatRoomService {
 
     @Transactional
     public Integer savePrivate(ChatMessageTo to, Integer recipientId) {
-        final ChatMessagePrivate messagePrivate =
-                privateRepository.save(ChatMessageUtils.privateMessageFromTo(to, recipientId));
+        final ChatMessagePrivate messagePrivate = privateRepository.save(privateMessageFromTo(to, recipientId));
         Assert.notNull(messagePrivate, "saved messagePrivate not be null");
 
         addMessageToCache(messagePrivate, CACHE_PRIVATE_ROOM_NAME);
 
         return messagePrivate.getId();
+    }
+
+    @Transactional
+    public Integer savePublic(ChatMessageTo to, String localeId) {
+        final ChatMessagePublic messagePublic = publicRepository.save(publicMessageFromTo(to, localeId));
+        Assert.notNull(messagePublic, "saved messagePublic not be null");
+
+        addMessageToCache(messagePublic, PUBLIC_ROOMS);
+
+        return messagePublic.getId();
     }
 
     private <T> void fillCacheMessages(String roomName, PagingAndSortingRepository<T, Integer> repository) {

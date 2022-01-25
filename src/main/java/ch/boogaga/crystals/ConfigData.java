@@ -21,4 +21,5 @@ public class ConfigData {
     public static final String PRIVATE_RECIPIENT_ROOMS = "PRIVATE_RECIPIENT_ROOMS";
     public static final String PUBLIC_ROOMS = "PUBLIC_ROOMS";
     public static final Integer EXPIRE_TIME_PRIVATE_MESSAGE = 30; // 30 days
+    public static final Integer EXPIRE_TIME_PUBLIC_MESSAGE = 30; // 30 days
 }
