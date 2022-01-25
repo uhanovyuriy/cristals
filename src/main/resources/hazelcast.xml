@@ -20,7 +20,13 @@
     </map>
 
     <!-- chat message live 30 days -->
-<!--    <map name="chat">-->
-<!--        <time-to-live-seconds>2592000</time-to-live-seconds>-->
-<!--    </map>-->
+    <map name="private_room">
+        <time-to-live-seconds>2592000</time-to-live-seconds>
+    </map>
+    <map name="public_room_ru">
+        <time-to-live-seconds>2592000</time-to-live-seconds>
+    </map>
+    <map name="public_room_en">
+        <time-to-live-seconds>2592000</time-to-live-seconds>
+    </map>
 </hazelcast>

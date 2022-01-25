@@ -9,13 +9,16 @@ public class ConfigData {
 
     // caching
     public static final String CACHE_USERS_NAME = "users";
-    public static final String CACHE_CHAT_NAME = "chat";
+    public static final String CACHE_PRIVATE_ROOM_NAME = "private_room";
+    public static final String CACHE_PUBLIC_ROOM_RU_NAME = "public_room_ru";
+    public static final String CACHE_PUBLIC_ROOM_EN_NAME = "public_room_en";
 
     // chat
-    public static final int SIZE_PAGEABLE_MESSAGES = 1000;
+    public static final int SIZE_PAGEABLE_MESSAGES = 1;
     public static final String ROOM_ID_LOCALE_EN = "enEN";
     public static final String ROOM_ID_LOCALE_RU = "ruRU";
     public static final String PRIVATE_SENDER_ROOMS = "PRIVATE_SENDER_ROOMS";
     public static final String PRIVATE_RECIPIENT_ROOMS = "PRIVATE_RECIPIENT_ROOMS";
     public static final String PUBLIC_ROOMS = "PUBLIC_ROOMS";
+    public static final Integer EXPIRE_TIME_PRIVATE_MESSAGE = 30; // 30 days
 }

@@ -2,8 +2,10 @@ package ch.boogaga.crystals.service.chat;
 
 import ch.boogaga.crystals.ConfigData;
 import ch.boogaga.crystals.model.persist.ChatMessagePrivate;
+import ch.boogaga.crystals.model.persist.ChatMessagePublic;
 import ch.boogaga.crystals.repository.chat.ChatPrivateRepository;
 import ch.boogaga.crystals.repository.chat.ChatPublicRepository;
+import ch.boogaga.crystals.to.ChatMessageTo;
 import com.hazelcast.core.HazelcastInstance;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Map;
 
+import static ch.boogaga.crystals.ConfigData.CACHE_PRIVATE_ROOM_NAME;
+import static ch.boogaga.crystals.ConfigData.CACHE_PUBLIC_ROOM_RU_NAME;
 import static ch.boogaga.crystals.testdata.TestDataChat.*;
 import static ch.boogaga.crystals.testdata.TestDataUser.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,22 +46,30 @@ class ChatRoomServiceTest {
 
     @Test
     void initRooms() {
-        service.initRooms();
-        Map<Integer, List<ChatMessagePrivate>> actualPrivateSender =
-                (Map<Integer, List<ChatMessagePrivate>>) hazelcastInstance.getMap(ConfigData.CACHE_CHAT_NAME)
-                        .get(ConfigData.PRIVATE_SENDER_ROOMS);
-        assertEquals(List.of(PRIVATE_MESSAGE_1, PRIVATE_MESSAGE_2), actualPrivateSender.get(USER_ID_1));
-        assertEquals(List.of(PRIVATE_MESSAGE_3), actualPrivateSender.get(USER_ID_2));
+        Map<Integer, ChatMessagePrivate> privateMap = hazelcastInstance.getMap(CACHE_PRIVATE_ROOM_NAME);
+        assertEquals(PRIVATE_MESSAGE_1, privateMap.get(PRIVATE_MESSAGE_1_ID));
+        assertEquals(PRIVATE_MESSAGE_2, privateMap.get(PRIVATE_MESSAGE_2_ID));
+        assertNotEquals(PRIVATE_MESSAGE_1, privateMap.get(PRIVATE_MESSAGE_3_ID));
+        assertNull(privateMap.get(PRIVATE_MESSAGE_4_ID));
 
-        Map<Integer, List<ChatMessagePrivate>> actualPrivateRecipient =
-                (Map<Integer, List<ChatMessagePrivate>>) hazelcastInstance.getMap(ConfigData.CACHE_CHAT_NAME)
-                        .get(ConfigData.PRIVATE_RECIPIENT_ROOMS);
-        assertEquals(List.of(PRIVATE_MESSAGE_1, PRIVATE_MESSAGE_2), actualPrivateRecipient.get(USER_ID_2));
-        assertEquals(List.of(PRIVATE_MESSAGE_3), actualPrivateRecipient.get(USER_ID_1));
+        Map<Integer, ChatMessagePublic> publicRuMap = hazelcastInstance.getMap(CACHE_PUBLIC_ROOM_RU_NAME);
+        assertEquals(PUBLIC_MESSAGE_RU, publicRuMap.get(PUBLIC_MESSAGE_RU_ID));
+        assertNotEquals(PUBLIC_MESSAGE_EN, publicRuMap.get(PUBLIC_MESSAGE_RU_ID));
+        assertNull(publicRuMap.get(PUBLIC_MESSAGE_EN_ID));
 
-        assertEquals(List.of(PUBLIC_MESSAGE_1),
-                hazelcastInstance.getMap(ConfigData.CACHE_CHAT_NAME).get(ConfigData.ROOM_ID_LOCALE_RU));
-        assertEquals(List.of(PUBLIC_MESSAGE_2),
-                hazelcastInstance.getMap(ConfigData.CACHE_CHAT_NAME).get(ConfigData.ROOM_ID_LOCALE_EN));
+        Map<Integer, ChatMessagePublic> publicEnMap = hazelcastInstance.getMap(ConfigData.CACHE_PUBLIC_ROOM_EN_NAME);
+        assertEquals(PUBLIC_MESSAGE_EN, publicEnMap.get(PUBLIC_MESSAGE_EN_ID));
+        assertNotEquals(PUBLIC_MESSAGE_RU, publicEnMap.get(PUBLIC_MESSAGE_EN_ID));
+        assertNull(publicEnMap.get(PUBLIC_MESSAGE_RU_ID));
+    }
+
+    @Test
+    @Transactional
+    void save() {
+        ChatMessageTo to = new ChatMessageTo(USER_ID_1, USER_1.getName(), "test data");
+        int actual = service.savePrivate(to, USER_ID_2);
+        assertEquals(PRIVATE_MESSAGE_4_ID, actual);
+        ChatMessagePrivate expected = privateRepository.getOne(PRIVATE_MESSAGE_4_ID);
+        assertEquals(expected, hazelcastInstance.getMap(CACHE_PRIVATE_ROOM_NAME).get(PRIVATE_MESSAGE_4_ID));
     }
 }

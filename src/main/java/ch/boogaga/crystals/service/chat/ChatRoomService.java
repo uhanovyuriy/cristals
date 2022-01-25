@@ -5,25 +5,29 @@ import ch.boogaga.crystals.model.persist.ChatMessagePrivate;
 import ch.boogaga.crystals.model.persist.ChatMessagePublic;
 import ch.boogaga.crystals.repository.chat.ChatPrivateRepository;
 import ch.boogaga.crystals.repository.chat.ChatPublicRepository;
+import ch.boogaga.crystals.to.ChatMessageTo;
+import ch.boogaga.crystals.util.ChatMessageUtils;
 import com.hazelcast.core.HazelcastInstance;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.*;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import javax.annotation.PostConstruct;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
-import static ch.boogaga.crystals.ConfigData.PUBLIC_ROOMS;
+import static ch.boogaga.crystals.ConfigData.*;
 
 @Component
 public class ChatRoomService {
     private final HazelcastInstance hazelcastInstance;
     private final ChatPrivateRepository privateRepository;
     private final ChatPublicRepository publicRepository;
+
+    @Value("${firstMemberAddress}")
+    private String firstMemberAddress;
 
     public ChatRoomService(@Qualifier("hazelcastInstance") HazelcastInstance hazelcastInstance,
                            ChatPrivateRepository privateRepository, ChatPublicRepository publicRepository) {
@@ -34,29 +38,57 @@ public class ChatRoomService {
 
     @PostConstruct
     public void initRooms() {
-        fillCacheMessages(ChatMessagePrivate::getSenderId, ConfigData.PRIVATE_SENDER_ROOMS, privateRepository);
-        fillCacheMessages(ChatMessagePrivate::getRecipientId, ConfigData.PRIVATE_RECIPIENT_ROOMS, privateRepository);
-        fillCacheMessages(ChatMessagePublic::getLocaleId, PUBLIC_ROOMS, publicRepository);
+        if (firstMemberAddress.equals("none")
+                || hazelcastInstance.getCluster().getLocalMember().getAddress().getHost().equals(firstMemberAddress)) {
+            hazelcastInstance.getMap(CACHE_PRIVATE_ROOM_NAME).clear();
+            hazelcastInstance.getMap(CACHE_PUBLIC_ROOM_RU_NAME).clear();
+            hazelcastInstance.getMap(CACHE_PUBLIC_ROOM_EN_NAME).clear();
+            fillCacheMessages(CACHE_PRIVATE_ROOM_NAME, privateRepository);
+            fillCacheMessages(PUBLIC_ROOMS, publicRepository);
+        }
     }
 
-    private <T, P> void fillCacheMessages(Function<T, P> fun, String roomName,
-                                          PagingAndSortingRepository<T, P> repository) {
+    @Transactional
+    public Integer savePrivate(ChatMessageTo to, Integer recipientId) {
+        final ChatMessagePrivate messagePrivate =
+                privateRepository.save(ChatMessageUtils.privateMessageFromTo(to, recipientId));
+        Assert.notNull(messagePrivate, "saved messagePrivate not be null");
+
+        addMessageToCache(messagePrivate, CACHE_PRIVATE_ROOM_NAME);
+
+        return messagePrivate.getId();
+    }
+
+    private <T> void fillCacheMessages(String roomName, PagingAndSortingRepository<T, Integer> repository) {
         Pageable pageable = PageRequest.of(0, ConfigData.SIZE_PAGEABLE_MESSAGES, Sort.by("created"));
         Slice<T> slice;
         while (true) {
             slice = repository.findAll(pageable);
-            final Map<P, List<T>> map = slice.get().collect(Collectors.groupingByConcurrent(fun));
-            if (roomName.equals(PUBLIC_ROOMS)) {
-                hazelcastInstance.getMap(ConfigData.CACHE_CHAT_NAME).putAll(map);
-            } else {
-                hazelcastInstance.getMap(ConfigData.CACHE_CHAT_NAME).put(roomName, map);
-            }
+            slice.get().forEach(cm -> addMessageToCache(cm, roomName));
 
             if (!slice.hasNext()) {
                 break;
             }
 
             pageable = slice.nextPageable();
+        }
+    }
+
+    private <T> void addMessageToCache(T message, String roomName) {
+        if (roomName.equals(PUBLIC_ROOMS)) {
+            final ChatMessagePublic cmp = (ChatMessagePublic) message;
+            switch (cmp.getLocaleId()) {
+                case ROOM_ID_LOCALE_RU: {
+                    hazelcastInstance.getMap(CACHE_PUBLIC_ROOM_RU_NAME).putIfAbsent(cmp.getId(), cmp);
+                    break;
+                }
+                case ROOM_ID_LOCALE_EN: {
+                    hazelcastInstance.getMap(CACHE_PUBLIC_ROOM_EN_NAME).putIfAbsent(cmp.getId(), cmp);
+                    break;
+                }
+            }
+        } else {
+            hazelcastInstance.getMap(roomName).putIfAbsent(((ChatMessagePrivate) message).getId(), message);
         }
     }
 }

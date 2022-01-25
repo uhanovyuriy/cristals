@@ -16,8 +16,9 @@ public class TestDataChat {
     public static final int PRIVATE_MESSAGE_1_ID = 1;
     public static final int PRIVATE_MESSAGE_2_ID = 2;
     public static final int PRIVATE_MESSAGE_3_ID = 3;
-    public static final int PUBLIC_MESSAGE_1_ID = 1;
-    public static final int PUBLIC_MESSAGE_2_ID = 2;
+    public static final int PRIVATE_MESSAGE_4_ID = 4;
+    public static final int PUBLIC_MESSAGE_RU_ID = 1;
+    public static final int PUBLIC_MESSAGE_EN_ID = 2;
     public static final ChatMessagePrivate PRIVATE_MESSAGE_1 = new ChatMessagePrivate(PRIVATE_MESSAGE_1_ID,
             USER_ID_1, USER_1.getName(), "private message 1", LocalDateTime.of(2022, Month.JANUARY,
             8, 12, 30), LocalDateTime.of(2022, Month.JANUARY,
@@ -33,15 +34,15 @@ public class TestDataChat {
             9, 12, 45), LocalDateTime.of(2022, Month.JANUARY,
             9, 13, 45), USER_ID_1,
             MessageStatus.RECEIVED);
-    public static final ChatMessagePublic PUBLIC_MESSAGE_1 = new ChatMessagePublic(PUBLIC_MESSAGE_1_ID, USER_ID_1,
+    public static final ChatMessagePublic PUBLIC_MESSAGE_RU = new ChatMessagePublic(PUBLIC_MESSAGE_RU_ID, USER_ID_1,
             USER_1.getName(), "public message 1", LocalDateTime.of(2022, Month.JANUARY,
             8, 12, 35), LocalDateTime.of(2022, Month.JANUARY,
             8, 13, 35), ConfigData.ROOM_ID_LOCALE_RU);
-    public static final ChatMessagePublic PUBLIC_MESSAGE_2 = new ChatMessagePublic(PUBLIC_MESSAGE_2_ID, USER_ID_2,
+    public static final ChatMessagePublic PUBLIC_MESSAGE_EN = new ChatMessagePublic(PUBLIC_MESSAGE_EN_ID, USER_ID_2,
             USER_2.getName(), "public message 2", LocalDateTime.of(2022, Month.JANUARY,
             8, 13, 35), LocalDateTime.of(2022, Month.JANUARY,
             8, 14, 35), ConfigData.ROOM_ID_LOCALE_EN);
     public static final List<ChatMessage> PRIVATE_MESSAGES = List.of(PRIVATE_MESSAGE_1, PRIVATE_MESSAGE_2,
             PRIVATE_MESSAGE_3);
-    public static final List<ChatMessage> PUBLIC_MESSAGES = List.of(PUBLIC_MESSAGE_1, PUBLIC_MESSAGE_2);
+    public static final List<ChatMessage> PUBLIC_MESSAGES = List.of(PUBLIC_MESSAGE_RU, PUBLIC_MESSAGE_EN);
 }
