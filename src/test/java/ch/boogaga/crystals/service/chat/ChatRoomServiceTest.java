@@ -1,6 +1,5 @@
 package ch.boogaga.crystals.service.chat;
 
-import ch.boogaga.crystals.ConfigData;
 import ch.boogaga.crystals.model.persist.ChatMessagePrivate;
 import ch.boogaga.crystals.model.persist.ChatMessagePublic;
 import ch.boogaga.crystals.repository.chat.ChatPrivateRepository;
@@ -45,6 +44,7 @@ class ChatRoomServiceTest {
 
     @Test
     void initRooms() {
+        service.initRooms();
         Map<Integer, ChatMessagePrivate> privateMap = hazelcastInstance.getMap(CACHE_PRIVATE_ROOM_NAME);
         assertEquals(PRIVATE_MESSAGE_1, privateMap.get(PRIVATE_MESSAGE_1_ID));
         assertEquals(PRIVATE_MESSAGE_2, privateMap.get(PRIVATE_MESSAGE_2_ID));
@@ -56,7 +56,7 @@ class ChatRoomServiceTest {
         assertNotEquals(PUBLIC_MESSAGE_EN, publicRuMap.get(PUBLIC_MESSAGE_RU_ID));
         assertNull(publicRuMap.get(PUBLIC_MESSAGE_EN_ID));
 
-        Map<Integer, ChatMessagePublic> publicEnMap = hazelcastInstance.getMap(ConfigData.CACHE_PUBLIC_ROOM_EN_NAME);
+        Map<Integer, ChatMessagePublic> publicEnMap = hazelcastInstance.getMap(CACHE_PUBLIC_ROOM_EN_NAME);
         assertEquals(PUBLIC_MESSAGE_EN, publicEnMap.get(PUBLIC_MESSAGE_EN_ID));
         assertNotEquals(PUBLIC_MESSAGE_RU, publicEnMap.get(PUBLIC_MESSAGE_EN_ID));
         assertNull(publicEnMap.get(PUBLIC_MESSAGE_RU_ID));
@@ -65,6 +65,7 @@ class ChatRoomServiceTest {
     @Test
     @Transactional
     void savePrivate() {
+        service.initRooms();
         int actual = service.savePrivate(CHAT_MESSAGE_TO, USER_ID_2);
         assertEquals(PRIVATE_MESSAGE_4_ID, actual);
 
@@ -78,6 +79,7 @@ class ChatRoomServiceTest {
     @Test
     @Transactional
     void savePublic() {
+        service.initRooms();
         int actual = service.savePublic(CHAT_MESSAGE_TO, ROOM_ID_LOCALE_RU);
         assertEquals(PUBLIC_MESSAGE_NEXT_ID, actual);
 
@@ -90,6 +92,7 @@ class ChatRoomServiceTest {
 
     @Test
     void getPrivateMessagesByUserId() {
+        service.initRooms();
         List<ChatMessagePrivate> actual1 = service.getPrivateMessagesByUserId(USER_ID_1);
         assertEquals(PRIVATE_MESSAGES, actual1);
         actual1.add(PRIVATE_MESSAGE_4);
@@ -106,6 +109,7 @@ class ChatRoomServiceTest {
 
     @Test
     void getPublicMessagesByLocaleId() {
+        service.initRooms();
         List<ChatMessagePublic> actualRu = service.getPublicMessagesByLocaleId(ROOM_ID_LOCALE_RU);
         assertEquals(List.of(PUBLIC_MESSAGE_RU), actualRu);
         assertNotEquals(List.of(PUBLIC_MESSAGE_EN), actualRu);
@@ -115,5 +119,23 @@ class ChatRoomServiceTest {
         assertNotEquals(List.of(PUBLIC_MESSAGE_RU), actualEn);
 
         assertThrows(IllegalArgumentException.class, () -> service.getPublicMessagesByLocaleId(null));
+    }
+
+    @Test
+    void deletePublicById() {
+        service.initRooms();
+        assertTrue(service.deletePublicById(PUBLIC_MESSAGE_RU_ID, ROOM_ID_LOCALE_RU));
+        assertFalse(service.deletePublicById(PUBLIC_MESSAGE_NEXT_ID, ROOM_ID_LOCALE_RU));
+        assertThrows(IllegalArgumentException.class, () -> service.deletePublicById(null, ROOM_ID_LOCALE_RU));
+        assertThrows(IllegalArgumentException.class, () -> service.deletePublicById(PUBLIC_MESSAGE_RU_ID, null));
+    }
+
+    @Test
+    void deletePrivateById() {
+        service.initRooms();
+        assertTrue(service.deletePrivateById(PRIVATE_MESSAGE_1_ID));
+        assertFalse(service.deletePrivateById(PRIVATE_MESSAGE_4_ID));
+        assertEquals(List.of(PRIVATE_MESSAGE_2, PRIVATE_MESSAGE_3), service.getPrivateMessagesByUserId(USER_ID_1));
+        assertThrows(IllegalArgumentException.class, () -> service.deletePrivateById(null));
     }
 }
