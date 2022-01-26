@@ -6,7 +6,6 @@ import ch.boogaga.crystals.model.persist.ChatMessagePublic;
 import ch.boogaga.crystals.repository.chat.ChatPrivateRepository;
 import ch.boogaga.crystals.repository.chat.ChatPublicRepository;
 import ch.boogaga.crystals.to.ChatMessageTo;
-import ch.boogaga.crystals.util.ChatMessageUtils;
 import com.hazelcast.core.HazelcastInstance;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -53,7 +52,7 @@ public class ChatRoomService {
     @Transactional
     public Integer savePrivate(ChatMessageTo to, Integer recipientId) {
         final ChatMessagePrivate messagePrivate = privateRepository.save(privateMessageFromTo(to, recipientId));
-        Assert.notNull(messagePrivate, "saved messagePrivate not be null");
+        Assert.notNull(messagePrivate, "saved messagePrivate must not be null");
 
         addMessageToCache(messagePrivate, CACHE_PRIVATE_ROOM_NAME);
 
@@ -63,7 +62,7 @@ public class ChatRoomService {
     @Transactional
     public Integer savePublic(ChatMessageTo to, String localeId) {
         final ChatMessagePublic messagePublic = publicRepository.save(publicMessageFromTo(to, localeId));
-        Assert.notNull(messagePublic, "saved messagePublic not be null");
+        Assert.notNull(messagePublic, "saved messagePublic must not be null");
 
         addMessageToCache(messagePublic, PUBLIC_ROOMS);
 

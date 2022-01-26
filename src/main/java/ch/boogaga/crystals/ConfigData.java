@@ -17,8 +17,6 @@ public class ConfigData {
     public static final int SIZE_PAGEABLE_MESSAGES = 1;
     public static final String ROOM_ID_LOCALE_EN = "enEN";
     public static final String ROOM_ID_LOCALE_RU = "ruRU";
-    public static final String PRIVATE_SENDER_ROOMS = "PRIVATE_SENDER_ROOMS";
-    public static final String PRIVATE_RECIPIENT_ROOMS = "PRIVATE_RECIPIENT_ROOMS";
     public static final String PUBLIC_ROOMS = "PUBLIC_ROOMS";
     public static final Integer EXPIRE_TIME_PRIVATE_MESSAGE = 30; // 30 days
     public static final Integer EXPIRE_TIME_PUBLIC_MESSAGE = 30; // 30 days
