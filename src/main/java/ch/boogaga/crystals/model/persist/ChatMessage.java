@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = true, exclude = {"senderName", "message", "created", "expireTime"})
+@EqualsAndHashCode(callSuper = true, exclude = {"created", "expireTime"})
 @MappedSuperclass
 @ToString(callSuper = true)
 public class ChatMessage extends AbstractBaseEntity {

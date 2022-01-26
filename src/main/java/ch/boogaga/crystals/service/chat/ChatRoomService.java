@@ -17,6 +17,8 @@ import org.springframework.util.Assert;
 
 import javax.annotation.PostConstruct;
 
+import java.util.List;
+
 import static ch.boogaga.crystals.ConfigData.*;
 import static ch.boogaga.crystals.util.ChatMessageUtils.privateMessageFromTo;
 import static ch.boogaga.crystals.util.ChatMessageUtils.publicMessageFromTo;
@@ -51,22 +53,30 @@ public class ChatRoomService {
 
     @Transactional
     public Integer savePrivate(ChatMessageTo to, Integer recipientId) {
+        Assert.notNull(to, "to must not be null");
+        Assert.notNull(recipientId, "recipientId must not be null");
         final ChatMessagePrivate messagePrivate = privateRepository.save(privateMessageFromTo(to, recipientId));
-        Assert.notNull(messagePrivate, "saved messagePrivate must not be null");
-
         addMessageToCache(messagePrivate, CACHE_PRIVATE_ROOM_NAME);
-
         return messagePrivate.getId();
     }
 
     @Transactional
     public Integer savePublic(ChatMessageTo to, String localeId) {
+        Assert.notNull(to, "to must not be null");
+        Assert.notNull(localeId, "to must not be null");
         final ChatMessagePublic messagePublic = publicRepository.save(publicMessageFromTo(to, localeId));
-        Assert.notNull(messagePublic, "saved messagePublic must not be null");
-
         addMessageToCache(messagePublic, PUBLIC_ROOMS);
-
         return messagePublic.getId();
+    }
+
+    public List<ChatMessagePrivate> getPrivateMessagesByUserId(Integer userId) {
+        Assert.notNull(userId, "userId must not be null");
+        return privateRepository.getPrivateMessagesByUserId(userId);
+    }
+
+    public List<ChatMessagePublic> getPublicMessagesByLocaleId(String localeId) {
+        Assert.notNull(localeId, "localeId must not be null");
+        return publicRepository.findAllByLocaleId(localeId);
     }
 
     private <T> void fillCacheMessages(String roomName, PagingAndSortingRepository<T, Integer> repository) {

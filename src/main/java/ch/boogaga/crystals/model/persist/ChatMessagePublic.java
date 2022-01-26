@@ -1,10 +1,7 @@
 package ch.boogaga.crystals.model.persist;
 
 import ch.boogaga.crystals.util.validation.NoHtml;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.Column;
@@ -22,6 +19,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 public class ChatMessagePublic extends ChatMessage {
     @Column(name = "locale_id", nullable = false)

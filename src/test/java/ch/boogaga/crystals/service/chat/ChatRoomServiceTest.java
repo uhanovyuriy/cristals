@@ -5,7 +5,6 @@ import ch.boogaga.crystals.model.persist.ChatMessagePrivate;
 import ch.boogaga.crystals.model.persist.ChatMessagePublic;
 import ch.boogaga.crystals.repository.chat.ChatPrivateRepository;
 import ch.boogaga.crystals.repository.chat.ChatPublicRepository;
-import ch.boogaga.crystals.to.ChatMessageTo;
 import com.hazelcast.core.HazelcastInstance;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +15,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Map;
 
 import static ch.boogaga.crystals.ConfigData.*;
@@ -67,8 +67,12 @@ class ChatRoomServiceTest {
     void savePrivate() {
         int actual = service.savePrivate(CHAT_MESSAGE_TO, USER_ID_2);
         assertEquals(PRIVATE_MESSAGE_4_ID, actual);
+
         ChatMessagePrivate expected = privateRepository.getOne(PRIVATE_MESSAGE_4_ID);
         assertEquals(expected, hazelcastInstance.getMap(CACHE_PRIVATE_ROOM_NAME).get(PRIVATE_MESSAGE_4_ID));
+
+        assertThrows(IllegalArgumentException.class, () -> service.savePrivate(null, USER_ID_2));
+        assertThrows(IllegalArgumentException.class, () -> service.savePrivate(CHAT_MESSAGE_TO, null));
     }
 
     @Test
@@ -76,7 +80,40 @@ class ChatRoomServiceTest {
     void savePublic() {
         int actual = service.savePublic(CHAT_MESSAGE_TO, ROOM_ID_LOCALE_RU);
         assertEquals(PUBLIC_MESSAGE_NEXT_ID, actual);
+
         ChatMessagePublic expected = publicRepository.getOne(PUBLIC_MESSAGE_NEXT_ID);
         assertEquals(expected, hazelcastInstance.getMap(CACHE_PUBLIC_ROOM_RU_NAME).get(PUBLIC_MESSAGE_NEXT_ID));
+
+        assertThrows(IllegalArgumentException.class, () -> service.savePublic(null, ROOM_ID_LOCALE_RU));
+        assertThrows(IllegalArgumentException.class, () -> service.savePublic(CHAT_MESSAGE_TO, null));
+    }
+
+    @Test
+    void getPrivateMessagesByUserId() {
+        List<ChatMessagePrivate> actual1 = service.getPrivateMessagesByUserId(USER_ID_1);
+        assertEquals(PRIVATE_MESSAGES, actual1);
+        actual1.add(PRIVATE_MESSAGE_4);
+        assertNotEquals(PRIVATE_MESSAGES, actual1);
+
+        List<ChatMessagePrivate> actual2 = service.getPrivateMessagesByUserId(USER_ID_2);
+        assertEquals(PRIVATE_MESSAGES, actual2);
+
+        List<ChatMessagePrivate> actual3 = service.getPrivateMessagesByUserId(USER_ID_3);
+        assertTrue(actual3.isEmpty());
+
+        assertThrows(IllegalArgumentException.class, () -> service.getPrivateMessagesByUserId(null));
+    }
+
+    @Test
+    void getPublicMessagesByLocaleId() {
+        List<ChatMessagePublic> actualRu = service.getPublicMessagesByLocaleId(ROOM_ID_LOCALE_RU);
+        assertEquals(List.of(PUBLIC_MESSAGE_RU), actualRu);
+        assertNotEquals(List.of(PUBLIC_MESSAGE_EN), actualRu);
+
+        List<ChatMessagePublic> actualEn = service.getPublicMessagesByLocaleId(ROOM_ID_LOCALE_EN);
+        assertEquals(List.of(PUBLIC_MESSAGE_EN), actualEn);
+        assertNotEquals(List.of(PUBLIC_MESSAGE_RU), actualEn);
+
+        assertThrows(IllegalArgumentException.class, () -> service.getPublicMessagesByLocaleId(null));
     }
 }

@@ -1,6 +1,5 @@
 package ch.boogaga.crystals.testdata;
 
-import ch.boogaga.crystals.ConfigData;
 import ch.boogaga.crystals.model.MessageStatus;
 import ch.boogaga.crystals.model.persist.ChatMessage;
 import ch.boogaga.crystals.model.persist.ChatMessagePrivate;
@@ -11,6 +10,8 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.List;
 
+import static ch.boogaga.crystals.ConfigData.ROOM_ID_LOCALE_EN;
+import static ch.boogaga.crystals.ConfigData.ROOM_ID_LOCALE_RU;
 import static ch.boogaga.crystals.testdata.TestDataUser.*;
 
 public class TestDataChat {
@@ -40,14 +41,19 @@ public class TestDataChat {
             9, 12, 45), LocalDateTime.of(2022, Month.JANUARY,
             9, 13, 45), USER_ID_1,
             MessageStatus.RECEIVED);
+    public static final ChatMessagePrivate PRIVATE_MESSAGE_4 = new ChatMessagePrivate(PRIVATE_MESSAGE_4_ID,
+            USER_ID_3, USER_3.getName(), "private message 4", LocalDateTime.of(2022, Month.JANUARY,
+            9, 13, 45), LocalDateTime.of(2022, Month.JANUARY,
+            9, 14, 45), USER_ID_2,
+            MessageStatus.RECEIVED);
     public static final ChatMessagePublic PUBLIC_MESSAGE_RU = new ChatMessagePublic(PUBLIC_MESSAGE_RU_ID, USER_ID_1,
             USER_1.getName(), "public message 1", LocalDateTime.of(2022, Month.JANUARY,
             8, 12, 35), LocalDateTime.of(2022, Month.JANUARY,
-            8, 13, 35), ConfigData.ROOM_ID_LOCALE_RU);
+            8, 13, 35), ROOM_ID_LOCALE_RU);
     public static final ChatMessagePublic PUBLIC_MESSAGE_EN = new ChatMessagePublic(PUBLIC_MESSAGE_EN_ID, USER_ID_2,
             USER_2.getName(), "public message 2", LocalDateTime.of(2022, Month.JANUARY,
             8, 13, 35), LocalDateTime.of(2022, Month.JANUARY,
-            8, 14, 35), ConfigData.ROOM_ID_LOCALE_EN);
+            8, 14, 35), ROOM_ID_LOCALE_EN);
     public static final List<ChatMessage> PRIVATE_MESSAGES = List.of(PRIVATE_MESSAGE_1, PRIVATE_MESSAGE_2,
             PRIVATE_MESSAGE_3);
     public static final List<ChatMessage> PUBLIC_MESSAGES = List.of(PUBLIC_MESSAGE_RU, PUBLIC_MESSAGE_EN);
