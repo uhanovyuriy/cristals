@@ -11,4 +11,13 @@ INSERT INTO chat_message_public (sender_id, sender_name, locale_id, message, cre
 VALUES (1, 'test', 'ruRU', 'public message 1', '2022-01-08 12:35:00', '2022-01-08 13:35:00');
 
 INSERT INTO chat_message_public (sender_id, sender_name, locale_id, message, created, expire_time)
-VALUES (2, 'test2', 'enEN', 'public message 2', '2022-01-08 13:35:00', '2022-01-08 14:35:00');
+VALUES (1, 'test', 'ruRU', 'public message 2', '2022-01-08 12:36:00', '2022-01-08 13:36:00');
+
+INSERT INTO chat_message_public (sender_id, sender_name, locale_id, message, created, expire_time)
+VALUES (1, 'test', 'ruRU', 'public message 3', '2022-01-08 12:37:00', '2022-01-08 13:37:00');
+
+INSERT INTO chat_message_public (sender_id, sender_name, locale_id, message, created, expire_time)
+VALUES (1, 'test', 'ruRU', 'public message 4', '2022-01-08 12:38:00', '2022-01-08 13:38:00');
+
+INSERT INTO chat_message_public (sender_id, sender_name, locale_id, message, created, expire_time)
+VALUES (2, 'test2', 'enEN', 'public message 5', '2022-01-08 13:35:00', '2022-01-08 14:35:00');

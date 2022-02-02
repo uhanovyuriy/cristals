@@ -58,9 +58,8 @@ public class ChatRoomService {
     }
 
     @Transactional
-    public Integer savePrivate(ChatMessageTo to, Integer recipientId) {
+    public Integer savePrivate(ChatMessageTo to, int recipientId) {
         Assert.notNull(to, "to must not be null");
-        Assert.notNull(recipientId, "recipientId must not be null");
         final ChatMessagePrivate messagePrivate = privateRepository.save(privateMessageFromTo(to, recipientId));
         addMessageToCache(messagePrivate, CACHE_PRIVATE_ROOM_NAME);
         return messagePrivate.getId();
@@ -75,26 +74,34 @@ public class ChatRoomService {
         return messagePublic.getId();
     }
 
-    public List<ChatMessagePrivate> getPrivateMessagesByUserId(Integer userId) {
-        Assert.notNull(userId, "userId must not be null");
+    public List<ChatMessagePrivate> getPrivateMessagesByUserId(int userId, int page, int count) {
+        Assert.state(page > 0, "page < or = 0");
+        Assert.state(count > 0, "count < or = 0");
+        final int skip = (page - 1) * count;
         return hazelcastInstance.getMap(CACHE_PRIVATE_ROOM_NAME).values().stream()
                 .map(m -> (ChatMessagePrivate) m)
-                .filter(m -> m.getSenderId().equals(userId) || m.getRecipientId().equals(userId))
+                .filter(m -> m.getSenderId() == userId || m.getRecipientId() == userId)
                 .sorted(Comparator.comparing(ChatMessage::getId))
+                .skip(skip)
+                .limit(count)
                 .collect(Collectors.toList());
     }
 
-    public List<ChatMessagePublic> getPublicMessagesByLocaleId(String localeId) {
+    public List<ChatMessagePublic> getPublicMessagesByLocaleId(String localeId, int page, int count) {
         Assert.notNull(localeId, "localeId must not be null");
+        Assert.state(page > 0, "page < or = 0");
+        Assert.state(count > 0, "count < or = 0");
+        final int skip = (page - 1) * count;
         return hazelcastInstance.getMap(cacheNameByLocaleId(localeId)).values().stream()
                 .map(m -> (ChatMessagePublic) m)
                 .sorted(Comparator.comparing(ChatMessage::getId))
+                .skip(skip)
+                .limit(count)
                 .collect(Collectors.toList());
     }
 
     @Transactional
-    public boolean deletePublicById(Integer messageId, String localeId) {
-        Assert.notNull(messageId, "messageId must not be null");
+    public boolean deletePublicById(int messageId, String localeId) {
         Assert.notNull(localeId, "localeId must not be null");
         boolean deleted = publicRepository.delete(messageId) != 0;
         if (deleted) {
@@ -107,12 +114,12 @@ public class ChatRoomService {
     }
 
     @Transactional
-    public boolean deletePrivateById(Integer messageId) {
-        Assert.notNull(messageId, "messageId must not be null");
+    public boolean deletePrivateById(int messageId) {
         final boolean deletedRepo = privateRepository.delete(messageId) != 0;
         if (deletedRepo) {
             if (hazelcastInstance.getMap(CACHE_PRIVATE_ROOM_NAME).remove(messageId) == null) {
-                Log.error(String.format("Delete private message with id=%d, not find in cache", messageId));
+                Log.error(String.format("Delete private message with id=%d from db ok, but not find in cache",
+                        messageId));
             }
         }
         return deletedRepo;

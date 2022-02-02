@@ -19,7 +19,7 @@ public class CrystalsApplication {
         app.run(args);
     }
 
-    @Bean
+    @Bean(name = "objectMapperDirty")
     public ObjectMapper objectMapperDirty() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);

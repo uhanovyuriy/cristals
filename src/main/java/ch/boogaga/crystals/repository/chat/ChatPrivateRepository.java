@@ -11,6 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public interface ChatPrivateRepository extends JpaRepository<ChatMessagePrivate, Integer> {
     @Modifying
-    @Query("DELETE FROM ChatMessagePublic c WHERE c.id = :id")
+    @Query("DELETE FROM ChatMessagePrivate c WHERE c.id = :id")
     int delete(@Param("id") Integer id);
 }
