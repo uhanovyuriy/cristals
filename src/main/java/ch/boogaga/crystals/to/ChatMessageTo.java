@@ -1,14 +1,13 @@
 package ch.boogaga.crystals.to;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
-@Getter
+@Data
 @AllArgsConstructor
-@ToString
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 public class ChatMessageTo extends BaseTo {
-    private final Integer senderId;
-    private final String senderName;
-    private final String message;
+    private Integer senderId;
+    private String senderName;
+    private String message;
 }

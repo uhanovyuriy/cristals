@@ -21,7 +21,7 @@ function connect() {
         setConnected(true);
         console.log('Connected: ' + frame);
         stompClient.subscribe('/crystals/incoming/complete', function (incoming) {
-            showGreeting(JSON.parse(incoming.body).content);
+            showGreeting(incoming.body);
         });
     });
 }
@@ -34,8 +34,18 @@ function disconnect() {
     console.log("Disconnected");
 }
 
-function send() {
-    stompClient.send("/crystals/incoming", {}, JSON.stringify({'login': $("#login").val()}));
+function sendPrivate() {
+    stompClient.send("/crystals/chat/private/add", {}, JSON.stringify({
+        'senderId': $("#privateSenderId").val(),
+        'senderName': $("#privateSenderName").val(), 'message': $("#privateMessage").val()
+    }));
+}
+
+function sendPublic() {
+    stompClient.send("/crystals/chat/public/add", {}, JSON.stringify({
+        'senderId': $("#publicSenderId").val(),
+        'senderName': $("#publicSenderName").val(), 'message': $("#publicMessage").val()
+    }));
 }
 
 function showGreeting(message) {
@@ -52,7 +62,10 @@ $(function () {
     $("#disconnect").click(function () {
         disconnect();
     });
-    $("#send").click(function () {
-        send();
+    $("#sendPrivate").click(function () {
+        sendPrivate();
+    });
+    $("#sendPublic").click(function () {
+        sendPublic();
     });
 });
